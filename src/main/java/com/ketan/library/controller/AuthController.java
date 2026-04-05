@@ -27,6 +27,10 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+
         userRepository.save(user);
         return "User registered";
     }
@@ -35,8 +39,10 @@ public class AuthController {
     public String login(@RequestBody User user) {
         User existing = userRepository.findByUsername(user.getUsername());
 
-        if (existing != null && existing.getPassword().equals(user.getPassword())) {
-            return jwtUtil.generateToken(user.getUsername());
+        if (existing != null &&
+                passwordEncoder.matches(user.getPassword(), existing.getPassword())) {
+
+            return jwtUtil.generateToken(existing.getUsername(), existing.getRole());
         }
 
         return "Invalid credentials";

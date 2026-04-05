@@ -2,6 +2,7 @@ package com.ketan.library.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JwtFilter  extends OncePerRequestFilter {
@@ -27,14 +29,19 @@ public class JwtFilter  extends OncePerRequestFilter {
 
             String token = authHeader.substring(7);
             String username = jwtUtil.extractUsername(token);
+            Object roleObj = jwtUtil.getClaims(token).get("role");
+
+            String role = null;
+            if (roleObj != null) {
+                role = roleObj.toString();
+            }
 
             if (username != null) {
-
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 username,
                                 null,
-                                new ArrayList<>()
+                                List.of(new SimpleGrantedAuthority(role))
                         );
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
