@@ -19,4 +19,13 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    public Book getBookById(int id) {
+        return bookRepository.findById(id).orElse(null);
+    }
+
+    public String deleteBook(int id) {
+        bookRepository.deleteById(id);
+        return "Book deleted successfully";
+    }
 }
