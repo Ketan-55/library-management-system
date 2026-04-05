@@ -11,6 +11,4 @@ public class BookDTO {
     private double price;
 
 
-
-
 }

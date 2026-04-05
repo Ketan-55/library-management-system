@@ -15,7 +15,7 @@ public class BookService {
     @Autowired
     BookRepository bookRepository;
 
-    public Book savebBook(Book book){
+    public Book savebBook(Book book) {
         return bookRepository.save(book);
     }
 
@@ -32,13 +32,14 @@ public class BookService {
             throw new BookNotFoundException("Book not found with id: " + id);
         }
     }
+
     public String deleteBook(int id) {
-      Optional<Book>optionalBook = bookRepository.findById(id);
-      if(optionalBook.isPresent()){
-          bookRepository.deleteById(id);
-      }else{
-          throw new BookNotFoundException("Book not found with id: "+id);
-      }
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
+            bookRepository.deleteById(id);
+        } else {
+            throw new BookNotFoundException("Book not found with id: " + id);
+        }
         return "Book deleted successfully";
     }
 
@@ -80,8 +81,9 @@ public class BookService {
         } else {
             throw new BookNotFoundException("Book not found with id: " + id);
         }
-       }
-       public BookDTO convertToDTO(Book book) {
+    }
+
+    public BookDTO convertToDTO(Book book) {
         BookDTO dto = new BookDTO();
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
