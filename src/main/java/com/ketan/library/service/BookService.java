@@ -28,4 +28,42 @@ public class BookService {
         bookRepository.deleteById(id);
         return "Book deleted successfully";
     }
+
+    public Book updateBook(int id, Book book) {
+        Book existingBook = bookRepository.findById(id).orElse(null);
+
+        if (existingBook != null) {
+            existingBook.setTitle(book.getTitle());
+            existingBook.setAuthor(book.getAuthor());
+            existingBook.setPrice(book.getPrice());
+
+            return bookRepository.save(existingBook);
+        }
+
+        return null;
+    }
+
+
+    public Book updateBookPartial(int id, Book book) {
+        Book existingBook = bookRepository.findById(id).orElse(null);
+
+        if (existingBook != null) {
+
+            if (book.getTitle() != null) {
+                existingBook.setTitle(book.getTitle());
+            }
+
+            if (book.getAuthor() != null) {
+                existingBook.setAuthor(book.getAuthor());
+            }
+
+            if (book.getPrice() != 0) {
+                existingBook.setPrice(book.getPrice());
+            }
+
+            return bookRepository.save(existingBook);
+        }
+
+        return null;
+    }
 }
