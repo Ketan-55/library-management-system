@@ -1,9 +1,11 @@
 package com.ketan.library.controller;
+import com.ketan.library.dto.BookDTO;
 import com.ketan.library.entity.Book;
 import com.ketan.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,8 +25,15 @@ public class BookController {
         }
 
         @GetMapping("/getAllBooks")
-        public List<Book> getAllBooks() {
-         return bookService.getAllBooks();
+        public List<BookDTO> getAllBooks() {
+            List<Book> books = bookService.getAllBooks();
+            List<BookDTO> dtoList = new ArrayList<>();
+
+            for (Book book : books) {
+                dtoList.add(bookService.convertToDTO(book));
+            }
+
+            return dtoList;
         }
 
        @GetMapping("/{id}")

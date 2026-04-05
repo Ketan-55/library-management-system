@@ -1,5 +1,6 @@
 package com.ketan.library.service;
 
+import com.ketan.library.dto.BookDTO;
 import com.ketan.library.entity.Book;
 import com.ketan.library.exception.BookNotFoundException;
 import com.ketan.library.repository.BookRepository;
@@ -79,5 +80,13 @@ public class BookService {
         } else {
             throw new BookNotFoundException("Book not found with id: " + id);
         }
+       }
+       public BookDTO convertToDTO(Book book) {
+        BookDTO dto = new BookDTO();
+        dto.setId(book.getId());
+        dto.setTitle(book.getTitle());
+        dto.setAuthor(book.getAuthor());
+        dto.setPrice(book.getPrice());
+        return dto;
     }
 }
