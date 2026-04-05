@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 @RestController
 public class BookController {
     @Autowired
@@ -19,4 +22,8 @@ public class BookController {
         public Book saveBook(@RequestBody Book book){
             return bookService.savebBook(book);
         }
+    @GetMapping("/getAllBooks")
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
+    }
 }
