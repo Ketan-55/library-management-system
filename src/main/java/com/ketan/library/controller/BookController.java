@@ -3,6 +3,7 @@ package com.ketan.library.controller;
 import com.ketan.library.dto.BookDTO;
 import com.ketan.library.entity.Book;
 import com.ketan.library.service.BookService;
+import com.ketan.library.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,24 @@ public class BookController {
         }
 
         return dtoList;
+    }
+
+    @GetMapping
+    public ApiResponse<List<BookDTO>> getAllBookslist() {
+
+        List<Book> books = bookService.getAllBooks();
+        List<BookDTO> dtoList = new ArrayList<>();
+
+        for (Book book : books) {
+            dtoList.add(bookService.convertToDTO(book));
+        }
+
+        ApiResponse<List<BookDTO>> response = new ApiResponse<>();
+        response.setStatus("SUCCESS");
+        response.setMessage("Books fetched successfully");
+        response.setData(dtoList);
+
+        return response;
     }
 
     @GetMapping("/{id}")
